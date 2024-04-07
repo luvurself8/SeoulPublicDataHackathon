@@ -1,11 +1,10 @@
 import pyodbc
 import pandas as pd
 
-
 ############### 데이터베이스 연결 설정
 class dbConnect:
     def dbconnect ():
-        server = 'database-1.c9so6u826z2w.ap-northeast-2.rds.amazonaws.com, 1433'
+        server = 'database-2.c9so6u826z2w.ap-northeast-2.rds.amazonaws.com, 1433'
         database = 'hackathon'
         username = 'admin'
         password = 'qwer1234'
