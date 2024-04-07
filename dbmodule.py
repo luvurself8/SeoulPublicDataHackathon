@@ -5,7 +5,7 @@ import pandas as pd
 ############### 데이터베이스 연결 설정
 class dbConnect:
     def dbconnect ():
-        server = 'database-1.c9so6u826z2w.ap-northeast-2.rds.amazonaws.com, 1433'
+        server = 'database-2.c9so6u826z2w.ap-northeast-2.rds.amazonaws.com, 1433'
         database = 'hackathon'
         username = 'admin'
         password = 'qwer1234'
@@ -119,5 +119,29 @@ class getData :
             where bh.sbike_spot_id = '{bike_station_code}' 
             and bh.cur_time >= '{start_dt}'
             and bh.cur_time <'{end_dt}' ;"""
+        df = pd.read_sql(sql_query,conn) 
+        return df
+    
+    @staticmethod
+    def get_station_info_all (conn, start_dt, end_dt):
+        # 만약 시작일이 비워져있으면, 2024년 04월 06일로 자동 세팅
+        if start_dt =='':
+            start_dt = '2024-04-06'   
+        if end_dt == '':
+            return     
+        sql_query = f"""select bh.cur_time, bh.area_cd , bh.sbike_spot_id,bh.sbike_parking_cnt
+                ,wi.WEATHER_TIME, wi.TEMP, wi.SENSIBLE_TEMP, wi.HUMIDITY,wi.WIND_DIRCT,wi.WIND_SPD
+                ,wi.PRECIPITATION, wi.PRECPT_TYPE, wi.SUNRISE, wi.SUNSET, wi.UV_INDEX_LVL, wi.UV_INDEX
+                , wi.PM25_INDEX, wi.PM25,wi.PM10_INDEX , wi.PM10, wi.AIR_IDX, wi.AIR_IDX_MVL, wi.AIR_IDX_MAIN
+                ,ppi.PPLTN_TIME ,ppi.AREA_CONGEST_LVL ,ppi.AREA_PPLTN_MIN ,ppi.AREA_PPLTN_MAX ,ppi.MALE_PPLTN_RATE 
+                ,ppi.FEMALE_PPLTN_RATE , ppi.PPLTN_RATE_0 , ppi.PPLTN_RATE_10 , ppi.PPLTN_RATE_20 , ppi.PPLTN_RATE_30 
+                , ppi.PPLTN_RATE_40 , ppi.PPLTN_RATE_50 , ppi.PPLTN_RATE_60 , ppi.PPLTN_RATE_70 , ppi.RESNT_PPLTN_RATE 
+                , ppi.NON_RESNT_PPLTN_RATE 
+            from bike_history bh with (nolock)
+            left join weather_info wi with (nolock) on bh.area_cd = wi.area_cd and bh.cur_time = wi.cur_time
+            left join ppl_info ppi with (nolock) on bh.area_cd = ppi.area_cd and bh.cur_time = ppi.cur_time
+            where 
+                bh.cur_time >= '{start_dt}'
+                and bh.cur_time <'{end_dt}' ;"""
         df = pd.read_sql(sql_query,conn) 
         return df
