@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 import threading
-from datetime import datetime
 import time
 import os
 import traceback
@@ -35,7 +34,6 @@ def write_error_log(now ,place, err_loc, error_message):
 ############### API 불러오기
 def bring_api (place):
     url = 'http://openapi.seoul.go.kr:8088/41514b514379697336387a6d784b58/json/citydata/1/1/{}'.format(place)
-    now = pd.to_datetime('today')
     response = requests.get(url).json() # 나중에 예외처리 진행/ 로그 생성
     # 지역 불러오기
     AREA_NM = response["CITYDATA"]["AREA_NM"]
