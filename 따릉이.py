@@ -6,23 +6,26 @@ import os
 import traceback
 from dbmodule import dbConnect, CommitData
 
+# 락 생성
+lock = threading.Lock()
 
 
 ### 에러 메세지 로그
 def write_error_log(now ,place, err_loc, error_message):
     # 로그 파일을 저장할 디렉토리 경로 생성
     log_directory = 'C:/Temp/logs'
-    
-    if not os.path.exists(log_directory):
-        os.makedirs(log_directory)
+    try : 
+        with lock :   
+            if not os.path.exists(log_directory):
+                os.makedirs(log_directory)
 
-    # 로그 파일 경로 생성
-    log_file_path = os.path.join(log_directory, 'error_log.txt')
+            # 로그 파일 경로 생성
+            log_file_path = os.path.join(log_directory, 'error_log.txt')
 
-    try:
-        # 에러 메시지를 로그 파일에 추가
-        with open(log_file_path, 'a') as log_file:
-            log_file.write(f'{now} , {place} , {err_loc} , {error_message}' + '\n')
+        
+            # 에러 메시지를 로그 파일에 추가
+            with open(log_file_path, 'a') as log_file:
+                log_file.write(f'{now} , {place} , {err_loc} , {error_message}' + '\n')
     except Exception as e:
         # 예외가 발생한 경우 표준 출력에 출력
         print("에러 로그를 기록하는 도중 예외가 발생했습니다:", str(e))
@@ -80,6 +83,9 @@ def scheduling():
         
 ############### 1분 1회 데이터 추출
 while True:
-    scheduling()
-    time.sleep(60)
-
+    try :
+        scheduling()
+    except Exception as e :
+        print(e)
+    finally :
+        time.sleep(60)
