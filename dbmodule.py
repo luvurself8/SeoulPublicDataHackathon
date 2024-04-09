@@ -28,6 +28,7 @@ class CommitData:
                         VALUES (?, ?, ?, ?)""", 
                         (now, AREA_CD, sbike_id, int(sbike_cnt)))
             conn.commit()
+        return sbike_response
             
     ############ 날씨 데이터 저장
     @staticmethod
@@ -64,6 +65,7 @@ class CommitData:
             , weather_response["AIR_IDX_MAIN"]
             ))
         conn.commit()
+        return weather_response
         
     ############ 인구 데이터 저장 
     @staticmethod 
@@ -93,6 +95,7 @@ class CommitData:
             , float(ppl_response["RESNT_PPLTN_RATE"])
             , float(ppl_response["NON_RESNT_PPLTN_RATE"] ))   )    
         conn.commit()
+        return ppl_response
 #/region 데이터 저장
 
 class getData :
