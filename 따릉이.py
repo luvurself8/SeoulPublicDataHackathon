@@ -11,7 +11,7 @@ lock = threading.Lock()
 
 
 ### 에러 메세지 로그
-def write_error_log(now ,place, err_loc, error_message):
+def write_error_log(now ,place, err_loc, error_message, response):
     # 로그 파일을 저장할 디렉토리 경로 생성
     log_directory = 'C:/Temp/logs'
     try : 
@@ -25,7 +25,8 @@ def write_error_log(now ,place, err_loc, error_message):
         
             # 에러 메시지를 로그 파일에 추가
             with open(log_file_path, 'a') as log_file:
-                log_file.write(f'{now} , {place} , {err_loc} , {error_message}' + '\n')
+                log_file.write(f'{now} , {place} , {err_loc} , {error_message}' + '\n'
+                               + f'호출 내용 : {response}'+ '\n')
     except Exception as e:
         # 예외가 발생한 경우 표준 출력에 출력
         print("에러 로그를 기록하는 도중 예외가 발생했습니다:", str(e))
@@ -39,7 +40,7 @@ def bring_api (place):
     url = 'http://openapi.seoul.go.kr:8088/41514b514379697336387a6d784b58/json/citydata/1/1/{}'.format(place)
     response = requests.get(url).json() # 나중에 예외처리 진행/ 로그 생성
     # 지역 불러오기
-    AREA_NM = response["CITYDATA"]["AREA_NM"]
+    #AREA_NM = response["CITYDATA"]["AREA_NM"]
     AREA_CD = response["CITYDATA"]["AREA_CD"]
     return response, AREA_CD
 
@@ -47,6 +48,7 @@ def bring_api (place):
 def get_citydata(place): 
     now = pd.to_datetime('today')
     try:
+        res = ''
         err_loc = 'api'
         ############### api 호출  
         response, AREA_CD = bring_api (place)
@@ -57,19 +59,23 @@ def get_citydata(place):
 
         err_loc = 'bike'
         ############### 자전거 데이터    
-        CommitData.bike_info (now, AREA_CD,response,cursor,conn)
+        res = CommitData.bike_info (now, AREA_CD,response,cursor,conn)
+        
+        err_loc = 'ppl'    
+        ############### 인구 데이터 
+        res = CommitData.ppl_info (now, AREA_CD,response,cursor,conn)
         
         err_loc = 'weather'    
         ############### 날씨 데이터
-        CommitData.weather_info (now, AREA_CD,response,cursor,conn)
-        err_loc = 'ppl'    
-        ############### 인구 데이터 
-        CommitData.ppl_info (now, AREA_CD,response,cursor,conn)
-        ## db connection 닫기
-        conn.close()
+        res = CommitData.weather_info (now, AREA_CD,response,cursor,conn)
+        
     except Exception as e:
         ## 에러 로그 저장
-        write_error_log(now , place, err_loc, e)
+        write_error_log(now , place, err_loc, e , res ) 
+        
+    finally :
+        ## db connection 닫기
+        conn.close()
 
 
  ############### 멀티쓰레드로 지역들 정보 끌어오기
