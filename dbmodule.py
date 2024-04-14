@@ -25,7 +25,7 @@ class Logs:
             
                 # 에러 메시지를 로그 파일에 추가
                 with open(log_file_path, 'a') as log_file:
-                    log_file.write(f'{now} , {place} , {err_loc} , {error_message}' + '\n'
+                    log_file.write('\n'+f'{now} , {place} , {err_loc} , {error_message}' + '\n'
                                 + f'호출 내용 : {response}'+ '\n')
         except Exception as e:
             # 예외가 발생한 경우 표준 출력에 출력
@@ -62,7 +62,7 @@ class CommitData:
 
                 cursor.execute("""INSERT INTO bike_history (CUR_TIME, AREA_CD, SBIKE_SPOT_ID, SBIKE_PARKING_CNT) 
                             VALUES (?, ?, ?, ?)""", 
-                            (now, AREA_CD, sbike_id, int(sbike_cnt)))
+                            (now, AREA_CD, sbike_id, int(sbike_cnt))) 
                 conn.commit()
             
         except Exception as e:
@@ -76,7 +76,6 @@ class CommitData:
     def weather_info (now, AREA_CD,response,cursor,conn):
         try:
             weather_response = response["CITYDATA"]["WEATHER_STTS"][0]
-            
             cursor.execute("""
                 INSERT INTO weather_info 
                 VALUES 
