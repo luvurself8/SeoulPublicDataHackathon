@@ -17,12 +17,12 @@ def bring_api (place):
 
 def get_citydata(place): 
     now = pd.to_datetime('today')
-    
+    conn = None  # 초기화
     try:
         ############### api 호출  
-        response, AREA_CD = bring_api (place , now)
+        response, AREA_CD = bring_api (place )
         ############### db 연결
-        conn, cursor = dbConnect.dbconnect (now)
+        conn, cursor = dbConnect.dbconnect ()
 
         ############### 자전거 데이터    
         CommitData.bike_info (now, AREA_CD,response,cursor,conn)
@@ -35,7 +35,7 @@ def get_citydata(place):
         
     except Exception as e:
         err_loc = 'api or db'
-        Logs.write_error_log(now, AREA_CD, err_loc, e, '')
+        Logs.write_error_log(now, place, err_loc, e, '')
         
     finally :
         if conn is not None:
