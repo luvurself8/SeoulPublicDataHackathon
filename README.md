@@ -1,3 +1,7 @@
+
+
+#2024 Seoul Open Data Plaza Public Data Utilization Startup Competition
+#Topic: Optimization of Shared PM (Personal Mobility) Services Through Prediction of Remaining Bikes at Each Ttareungi Station
 # 2024 서울 열린데이터광장 공공데이터 활용 창업경진대회
 ## 주제: 따릉이 정류소별 잔여 대수 예측을 통한 공유PM 사업 최적화
 ## 기술 스택
@@ -30,9 +34,11 @@
 </div>
 
 ## 컨텐츠 설명
-- **dbmodule.py**: 실시간 따릉이 데이터 수집용 Python Module
-- **tables.sql**: 테이블 생성용 SQL 쿼리
-- **따릉이.py**: 실시간 따릉이 데이터 수집용 Python Code
-- **모델_LSTM.ipynb**: LSTM 기반 따릉이 대수 예측용 딥러닝 모델
-- **자료 시각화.ipynb**: 발표자료용 시각자료 생성 Notebook 파일
+- **dbmodule.py**: 실시간 따릉이 데이터 수집용 Python Module (Python module for collecting real-time Ttareungi bike data)
+- **tables.sql**: 테이블 생성용 SQL 쿼리 (SQL queries for creating database tables)
+- **따릉이.py**: 실시간 따릉이 데이터 수집용 Python Code (Python script for collecting real-time Ttareungi bike data
+)
+- **모델_LSTM.ipynb**: LSTM 기반 따릉이 대수 예측용 딥러닝 모델 (Deep learning model using LSTM for predicting available Ttareungi bikes)
+- **자료 시각화.ipynb**: 발표자료용 시각자료 생성 Notebook 파일 (Jupyter notebook for generating visual materials for the presentation
+)
 - 시연 영상 및 사진은 [여기](https://drive.google.com/drive/folders/1gdTeV5sj2uXyZp2jf8kIb2Z5XcY7Ba5C?usp=drive_link)를 클릭해주세요!
