@@ -1,7 +1,7 @@
 
 
-#2024 Seoul Open Data Plaza Public Data Utilization Startup Competition
-#Topic: Optimization of Shared PM (Personal Mobility) Services Through Prediction of Remaining Bikes at Each Ttareungi Station
+# 2024 Seoul Open Data Plaza Public Data Utilization Startup Competition
+# Topic: Optimization of Shared PM (Personal Mobility) Services Through Prediction of Remaining Bikes at Each Ttareungi Station
 # 2024 서울 열린데이터광장 공공데이터 활용 창업경진대회
 ## 주제: 따릉이 정류소별 잔여 대수 예측을 통한 공유PM 사업 최적화
 ## 기술 스택
